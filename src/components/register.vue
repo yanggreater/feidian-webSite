@@ -1,19 +1,26 @@
 <template>
+<div class="overall">
     <div class="register">
         <div class="register-img">
-            <img src="../assets/bg.jpg" />
+            <img src="../assets/2.jpg" />
         </div>
-        <div class="registerNav">
-            <a href="http://www.52feidian.com"><img src="../assets/logo.png"/>沸点官网</a>
-            <img src="../assets/qq.png" class="qq" ref="qq"/>
-            <span @mouseover="handleDisplay" @mouseout="handleMiss"><img src="../assets/qq.png"/>沸点交流群</span>
-            <a href="http://wiki.52feidian.com">wiki账户</a>
-            <span><router-link to="/login">登录</router-link></span>
-        </div>
+
+        <div class="register-right">
+            <div class="registerNav">
+                <a href="http://www.52feidian.com"><!-- <img src="../images/logo.png"/> -->沸点官网</a
+                <img src="../images/feidian.jpg" class="feidian" ref="feidian"/>  
+                <span @mouseover="handleDisplay" @mouseout="handleMiss"><!-- <img src="../images/qq.png"/> -->沸点交流群</span>
+                <a href="http://wiki.52feidian.com">wiki账户</a>
+                <span><router-link to="/login">登录</router-link></span>
+            </div>
+
+            <div class="register-h">
+                 <h1>欢迎加入沸点</h1>
+                 <h3>每一天,都要进步!</h3>  
+            </div>
+
         <div class="register-message">
-            <h1>欢迎加入沸点</h1>
-            <h3>每一天,都要进步!</h3>
-            <div class="form">
+           <div class="form">
                 <div>
                     <input 
                         type="text" 
@@ -86,12 +93,18 @@
             </div>
             <a href="#" @click="handleReg">立即注册</a>
         </div>
+        <Alert :closed="tip.closed" :type="tip.type">
+            <span>{{tip.message}}</span>
+        </Alert>
         
+    </div> 
     </div>
+</div>
 </template>
 
 <script>
 import $ from '../libs/util.js'
+import Alert from './common/alert.vue'
 export default {
     data() {
         return{
@@ -110,8 +123,17 @@ export default {
                 id:false,
                 group:false
             },
+            tip:{
+                type:'success',
+                closed:true,
+                message:'',
+                timer:null
+            },
             height:window.innerHeight+'px',
         }
+    },
+    components:{
+        Alert,
     },
     computed:{
         confirmPassError:function() {
@@ -125,88 +147,165 @@ export default {
         },
         handleReg () {
             if(this.registerForm.email ==='' || this.registerForm.password === '' || this.registerForm.confirmPass === ''|| this.registerForm.name === ''|| this.registerForm.group === ''){
-                
-                this.$message.warning('请完善您的基本信息!')
+                //alert('请完善信息!');
+                this.setTip('请完善您的基本信息!','warning');
+                this.clearTimer();
             }
             else if(this.registerForm.password != this.registerForm.confirmPass){
-                this.$message.warning('请确认密码是否一致!');
+                this.setTip('请确认密码是否一致!','warning');
+                this.clearTimer();
             }
             else{
                 $.ajax.post('/register',this.$qs.stringify(this.registerForm)).then((res) =>{
                     if(res.status === 200  && res.data.status ===1){
                         //alert('注册成功，请登录！');
-                        this.$message.success('注册成功,请登录!')
-                        
+                        this.setTip('注册成功,请登录!','success');
+                        this.clearTimer();
+                        //this.$router.push('/login');
                     }else{
                         //alert(res.data.error);
-                        this.$message.error(res.data.error);
+                        this.setTip(res.data.error,'error');
+                        this.clearTimer();
                     }
-                    
+                    // console.log(res);
                 })
                 .catch((error) => {
                     console.log(error);
                 })
             }
+                // this.$store.dispatch('handleReg',this.registerForm);
         },
         handleDisplay () {
-            this.$refs.qq.style.display = 'inline';
+            this.$refs.feidian.style.display = 'inline';
         },
         handleMiss () {
-            this.$refs.qq.style.display = 'none';
+            this.$refs.feidian.style.display = 'none';
         },
+        setTip(message,type){
+            this.tip.message = message;
+            this.tip.type = type;
+            this.tip.closed = false;
+            this.tip.timer = setTimeout(() => {
+                 this.tip.closed = true;
+            },4000);
+        },
+        clearTimer() {
+            if(this.tip.timer !==null)
+                this.tip.timer = null;
+        }
     },
         
 }
 </script>
 
 <style scoped>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    .overall {
+        width: 100%;
+        height: 100%;
+        /*border: 1px solid black;*/
+    }
+    .register {
+        height: 99.6%;
+        /*border:  1px solid green;*/
+    }
+
+    .register-img {
+        width: 40%;
+        display: inline-block;
+        height: 99.5%;
+        float: left;
+    }
     .register-img img{
-        width: 40%; 
-        height: 678px;
-        display: block;
-        float: left;   
+        width: 100%; 
+        height: 100.3%;
+        /* height: 678px; */
+        /* display: block;
+        float: left;    */
     }
+
+    .register-right{
+       /* border: 1px solid blue;*/
+        width: 59%;
+        height: 99%;
+        float: left;
+    }
+
     .registerNav {
-        float: right;
-        margin-top: 25px;
-    }
-    .registerNav span,.registerNav a{
-        font-size:17px; 
-        font-weight:100px; 
-        padding-right: 25px;
-        color: rgb(116, 107, 107);
-        cursor: pointer;
-    }
-    .registerNav span:hover,.registerNav a:hover{
-        color: black;
+        margin-top: 20px;
+        margin-left: 50px; 
+        width: 94%;
+        height: 5%;
+        display: inline-flex;
+        display: -webkit-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        font-size: 20px;
+        position: relative;
     }
     .registerNav img {
         vertical-align: middle;
-        width: 20px;
+        width: 21px;
         padding-right: 5px;
     }
-    .registerNav .qq{
+    .registerNav .feidian{
         position: absolute;
         top:60px;
         width: 150px;
         display: none;
     }
-    .register-message{
+    .registerNav span,.registerNav a{
+        /*font-size:17px; */
+        font-weight:100px; 
+        padding-right: 25px;
+        color: rgb(116, 107, 107);
+        cursor: pointer;
+        /*background-color: #2d8cf0;
+        border-radius: 3px;*/
+    }
+    .registerNav span:hover,.registerNav a:hover{
+        color: black;
+    }
+    
+    .register-h{
+        margin-left: 75px; 
+        width: 70%;
+        height: 12%;
+    }
+    h3{
+        padding: 15px 0 0 10px;
+        font-weight: 100;
+        /*margin-left: 30px;*/
+    }
+    h1{
+        padding: 15px 0 0 10px;
+        font-weight: 100;
+    }
+
+    .register-message {
+        width: 55%;
+        height: 66%;
+        float: left;
+        margin-top: 50px;
+        margin-left: 200px;
+        overflow: hidden;
+    }
+     /*.register-message{
         float: right;
         padding: 30px 120px 0px 0px;
         width: 40%;
-        overflow: scroll;
-    }
-    .register-message h3,.register-message h1{
-        padding: 10px 0 0 10px;
-        font-weight: 100;
-    }
+        /*overflow: scroll;
+    }*/
     .register-message div{
-        padding-top:20px;
+        padding-top:10px;
     }
     .register-message .select{
         width: 200px;
-        height: 45px;
+        height: 35px;
         background: #fff;
         border: 1px solid #d7dde4;
         border-radius: 4px;
@@ -224,7 +323,7 @@ export default {
     }
     .form-input{
         width: 85%;
-        height: 45px;
+        height: 35px;
         font-size: 16px;
         padding: 0 10px;
         border: 1px solid #d7dde4;
@@ -238,9 +337,10 @@ export default {
     }
     .register-message a{
         display: inline-block;
-        padding: 10px 36%;
-        margin-top: 20px;
+        padding: 5px 28%;
+        margin-top: 30px;
         margin-bottom: 50px;
+        margin-left: 40px;
         cursor: pointer;
         border-radius: 4px;
         font-size: 22px;

@@ -1,4 +1,5 @@
 <template>
+<div class="login-body">
     <div class="login">
         <div class="logo">
             <img src="../assets/logo.png"/>
@@ -19,18 +20,22 @@
         </div>
         <div class="checkbox">
             <input type="checkbox" v-model="checked"/>
-            <span>记住密码  </span>
+            <span>记住密码</span>
         </div>
         
-        <a class="button" @click="handleLogin">登 录</a>
+        <div class="DIVbutton">
+            <a class="button" @click="handleLogin">登 录</a>
+        </div>
+        
         <div class="goToReg">
             <span>还没有沸点账号？</span>
             <router-link to="/register" >立即注册</router-link>
         </div>
-        <!-- <Alert :closed="tip.closed" :type="tip.type">
+        <Alert :closed="tip.closed" :type="tip.type">
             <span>{{tip.message}}</span>
-        </Alert> -->
+        </Alert>
     </div>
+</div>
 </template>
 
 <script>
@@ -44,6 +49,12 @@ export default {
             errorEmail:false,
             errorPassWord:false,
             checked:false,
+            tip:{
+                type:'success',
+                closed:true,
+                message:'',
+                timer:null
+            }
         }
     },
     components:{
@@ -72,7 +83,9 @@ export default {
                         //console.log(JSON.parse(localStorage.getItem('form')));
                         this.$router.push({path:'/index',query:{email:this.email}});
                     }else{
-                        this.$message.error(res.data.error);
+                        //alert(res.data.error);
+                        this.setTip(res.data.error,'error');
+                        this.clearTimer();
                     }
                 })
                 .catch((error) => {
@@ -107,6 +120,18 @@ export default {
         },
         clearCookie: function() {
             this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+        },
+        setTip(message,type){
+            this.tip.message = message;
+            this.tip.type = type;
+            this.tip.closed = false;
+            this.tip.timer = setTimeout(() => {
+                 this.tip.closed = true;
+            },4000);
+        },
+        clearTimer() {
+            if(this.tip.timer !==null)
+                this.tip.timer = null;
         }
     },
     watch:{
@@ -129,41 +154,45 @@ export default {
 
 <style scoped>
     *{
-        margin-top: 10px;
+        /*margin-top: 10px;*/
+        margin: 0;
+        padding: 0;
+    }
+    .login-body{
+        width: 99%;
+        height: 100%;
     }
     .login {
-        width: 280px;
-        height: 380px;
+        width: 450px;
+        height: 600px;
         font-size: 14px;
-        margin: 80px auto;
-        padding-top: 10px;
+        margin: auto;
         text-align: center;
         border-radius: 6px;
         background:#ffffff;
     }
     .login .logo img{
-        width: 60px;
+        width: 140px;
         padding-left: 30px;
+        margin: 60px auto 0;
     }
     .user-info .login-message{
-        padding: 0px 10px;
+        padding: 10px 10px;
     }
     .login .title{
         font-weight: 600;
-        font-size: 20px;
+        font-size: 30px;
     }
     .login-password,.login-name {
-        width: 200px;
-        height: 32px;
-        padding: 0 10px;
+        width: 250px;
+        height: 40px;
+        padding: 0 18px;
         border: 1px solid #d7dde4;
         border-radius: 4px;
         color: #657180;
         outline: none;
-    }
-    .login-message p{
-        font-size: 12px;
-        margin-top: 0; 
+        font-size: 18px;
+
     }
     input:focus {
         border: 1px solid #3399ff;
@@ -173,9 +202,13 @@ export default {
         color: red; 
     }
     .checkbox{
-        float: left;
-        margin-left: 25px;
+        width: 297px;
+        /* height: 40px; */
+        display: inline-block;
+        text-align: left;
         color: #17233d;
+        font-size: 16px;
+        margin-top: 10px;
     }
     .button {
         display: inline-block;
@@ -183,17 +216,18 @@ export default {
         border-radius: 4px;
         color: #fff;
         background: #2d8cf0;
-        margin: 15px 0;
-        padding: 8px 95px;
+        margin-top: 20px;
+        padding: 8px 80px;
     }
     .button:hover{
         background:#5cadff;
     }
     .goToReg {
-        padding-right: 30px;
+        margin-top: 20px;
+        padding-right: 86px;
         text-align: right;
         color: #9ea7b4;
-        font-size: 12px;
+        font-size: 16px;
     }
     .goToReg a:hover{
         color: #027efad8;
