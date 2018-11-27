@@ -124,8 +124,9 @@ export default {
             else this.error[value] = false;
         },
         handleReg () {
+            
             if(this.registerForm.email ==='' || this.registerForm.password === '' || this.registerForm.confirmPass === ''|| this.registerForm.name === ''|| this.registerForm.group === ''){
-                
+
                 this.$message.warning('请完善您的基本信息!')
             }
             else if(this.registerForm.password != this.registerForm.confirmPass){

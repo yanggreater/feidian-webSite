@@ -18,7 +18,7 @@
         visible: false,
         type:'info',
         message: '',
-        duration: 30000
+        duration: 3000
       }
     },
     computed:{
