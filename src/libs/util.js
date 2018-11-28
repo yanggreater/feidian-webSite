@@ -1,6 +1,6 @@
 import axios from 'axios';
 const Util = {
-    apiPath:'http://api.52feidian.com/api',
+    apiPath:'http://123.207.19.172:8080/api',
     //读取cookie
     }
 Util.ajax = axios.create({
