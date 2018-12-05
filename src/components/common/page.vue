@@ -61,7 +61,7 @@ export default {
     computed:{
         pageTitle:function(){//计算页数，由父组件传来的数据计算
             let arr = [...this.totalData];
-            return Math.ceil(arr.length/3);
+            return Math.ceil(arr.length/9);
         },
         pages:function(){//计算那一页显示
             let arr = [];
@@ -101,13 +101,20 @@ export default {
     watch:{
         currentValue(val){
             this.$emit('handleCurrent',val);
+        },
+        current(val){
+            this.currentValue = val;
         }
+        // totalData(){
+        //     this.pages();
+        // }
     }
 }
 </script>
 
 <style scoped>
     .pager{
+        margin: 30px 0;
         text-align: center;
     }
     .btn-pager{

@@ -27,7 +27,7 @@
             <div class="person-message">
                 <h4>成员档案</h4>
                 <div class="person-message-content">
-                    <div v-for="data in pageData" :key="data.id">
+                    <div v-for="(data,index) in pageData" :key='index'>
                         <Card :data="data" :is-admin="LoginMessage.admin"></Card>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ export default {
         },
         pageData:function(){
             let arr = [...this.filterData];
-            let pageArr = arr.slice((this.current-1)*3,this.current*3);
+            let pageArr = arr.slice((this.current-1)*9,this.current*9);
             return pageArr; 
         },
         LoginMessage:function(){
@@ -186,6 +186,6 @@ export default {
     }
     .index-content .person-message .person-message-content{
         overflow: auto;
-        height: 350px;
+        /* height: 350px; */
     }
 </style>
