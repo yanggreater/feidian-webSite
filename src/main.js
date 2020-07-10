@@ -11,6 +11,7 @@ import './style.css';
 Vue.prototype.$qs = qs;
 Vue.config.productionTip = false
 
+// 我自己修改了
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

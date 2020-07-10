@@ -15,16 +15,16 @@
 
             <div class="register-h">
                  <h1>欢迎加入沸点</h1>
-                 <h3>每一天,都要进步!</h3>  
+                 <h3>每一天,都要进步!</h3>
             </div>
 
         <div class="register-message">
            <div class="form">
                 <div>
-                    <input 
-                        type="text" 
-                        class="form-input" 
-                        placeholder="邮箱" 
+                    <input
+                        type="text"
+                        class="form-input"
+                        placeholder="邮箱"
                         :class="{error:error.email}"
                         @blur="handleError('email')"
                         v-model="registerForm.email"/>
@@ -33,9 +33,9 @@
                     </transition>
                 </div>
                 <div>
-                    <input 
-                        type="password" 
-                        class="form-input" 
+                    <input
+                        type="password"
+                        class="form-input"
                         placeholder="密码"
                         :class="{error:error.password}"
                         @blur="handleError('password')"
@@ -45,20 +45,20 @@
                     </transition>
                 </div>
                 <div>
-                    <input 
-                        type="password" 
-                        class="form-input" 
+                    <input
+                        type="password"
+                        class="form-input"
                         :class="{error:confirmPassError}"
-                        placeholder="确认密码" 
-                       
+                        placeholder="确认密码"
+
                         v-model="registerForm.confirmPass"/>
-                    <transition name="display">    
+                    <transition name="display">
                         <i v-show="confirmPassError"><span class="icon">!</span>密码不匹配</i>
                     </transition>
                 </div>
                 <div>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         class="form-input"
                         :class="{error:error.name}"
                         placeholder="姓名"
@@ -69,8 +69,8 @@
                     </transition>
                 </div>
                 <div>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         class="form-input"
                         :class="{error:error.id}"
                         placeholder="学号"
@@ -88,12 +88,12 @@
                         <option value="信息安全">信息安全</option>
                     </select>
                 </div>
-               
+
             </div>
             <a href="#" @click="handleReg">立即注册</a>
         </div>
-        
-    </div> 
+
+    </div>
     </div>
 </div>
 </template>
@@ -131,7 +131,7 @@ export default {
             else this.error[value] = false;
         },
         handleReg () {
-            
+
             if(this.registerForm.email ==='' || this.registerForm.password === '' || this.registerForm.confirmPass === ''|| this.registerForm.name === ''|| this.registerForm.group === ''){
 
                 this.$message.warning('请完善您的基本信息!')
@@ -162,7 +162,7 @@ export default {
             this.$refs.feidian.style.display = 'none';
         }
     },
-        
+
 }
 </script>
 
@@ -188,7 +188,7 @@ export default {
         float: left;
     }
     .register-img img{
-        width: 100%; 
+        width: 100%;
         height: 100.3%;
         /* height: 678px; */
         /* display: block;
@@ -204,7 +204,7 @@ export default {
 
     .registerNav {
         margin-top: 20px;
-        margin-left: 50px; 
+        margin-left: 50px;
         width: 94%;
         height: 5%;
         display: inline-flex;
@@ -228,7 +228,7 @@ export default {
     }
     .registerNav span,.registerNav a{
         /*font-size:17px; */
-        font-weight:100px; 
+        font-weight:100px;
         padding-right: 25px;
         color: rgb(116, 107, 107);
         cursor: pointer;
@@ -238,9 +238,9 @@ export default {
     .registerNav span:hover,.registerNav a:hover{
         color: black;
     }
-    
+
     .register-h{
-        margin-left: 75px; 
+        margin-left: 75px;
         width: 70%;
         height: 12%;
     }
@@ -285,7 +285,7 @@ export default {
     }
     .register-message div i{
         display: block;
-        color: red; 
+        color: red;
         font-size: 14px;
         padding: 5px 0 0 5px;
     }
